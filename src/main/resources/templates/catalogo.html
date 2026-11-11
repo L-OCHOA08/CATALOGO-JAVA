@@ -23,6 +23,7 @@
 
   <div class="grid">
     <div class="card" th:each="p : ${productos.content}">
+      <img th:if="${p.imagen}" th:src="@{/uploads/{f}(f=${p.imagen})}" th:alt="${p.nombre}" style="width:100%;height:160px;object-fit:cover;border-radius:6px">
       <h3 th:text="${p.nombre}">Nombre</h3>
       <p th:text="${p.descripcion}">Descripción</p>
       <p class="precio" th:text="'$ ' + ${#numbers.formatDecimal(p.precio, 1, 'POINT', 2, 'COMMA')}">$ 0</p>

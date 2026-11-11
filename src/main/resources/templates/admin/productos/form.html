@@ -15,8 +15,10 @@
 <body>
   <h1 th:text="${producto.id} == null ? 'Nuevo producto' : 'Editar producto'">Producto</h1>
 
-  <form th:action="@{/admin/productos/guardar}" th:object="${producto}" method="post">
+  <form th:action="@{/admin/productos/guardar}" th:object="${producto}" method="post"
+      enctype="multipart/form-data">
     <input type="hidden" th:field="*{id}">
+    <input type="hidden" th:field="*{imagen}">
 
     <label for="nombre">Nombre</label>
     <input type="text" id="nombre" th:field="*{nombre}">
@@ -36,6 +38,14 @@
               th:selected="${c.id} == ${categoriaId}">Cat</option>
     </select>
     <div class="error" th:if="${#fields.hasErrors('categoria')}" th:errors="*{categoria}"></div>
+
+    <label for="archivo">Imagen (JPG, PNG o WEBP, hasta 5 MB)</label>
+    <div th:if="${producto.imagen}">
+      <img th:src="@{/uploads/{f}(f=${producto.imagen})}" alt="Imagen actual" style="max-width:160px;border-radius:6px">
+      <label><input type="checkbox" name="quitarImagen" value="true"> Quitar imagen</label>
+    </div>
+    <input type="file" id="archivo" name="archivo" accept="image/jpeg,image/png,image/webp">
+    <div class="error" th:if="${errorImagen}" th:text="${errorImagen}"></div>
 
     <label><input type="checkbox" th:field="*{activo}"> Visible en el catálogo</label>
 
