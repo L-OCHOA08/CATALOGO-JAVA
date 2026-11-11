@@ -1,6 +1,7 @@
 package com.paginas.catalogo.model;
 
-import jakarta.persistence.*;;
+import jakarta.persistence.*;
+import jakarta.validation.constraints.*;
 
 @Entity 
 public class Categoria {
@@ -9,6 +10,8 @@ public class Categoria {
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     private Long id;
 
+    @NotBlank(message = "El nombre es obligatorio")
+    @Size(max = 80, message = "Máximo 80 caracteres")
     @Column(nullable = false, length = 80)
     private String nombre;
 

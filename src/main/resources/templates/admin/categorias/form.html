@@ -1,0 +1,29 @@
+<!DOCTYPE html>
+<html lang="es" xmlns:th="http://www.thymeleaf.org">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+  <title>Categoría</title>
+  <style>
+    body { font-family: system-ui, sans-serif; margin: 0; padding: 1rem; max-width: 480px; margin-inline: auto; }
+    label { display: block; margin-top: 1rem; font-weight: 600; }
+    input[type=text] { width: 100%; padding: .5rem; box-sizing: border-box; }
+    .error { color: #b00020; font-size: .9rem; }
+    button { margin-top: 1.5rem; padding: .6rem 1.2rem; }
+  </style>
+</head>
+<body>
+  <h1 th:text="${categoria.id} == null ? 'Nueva categoría' : 'Editar categoría'">Categoría</h1>
+
+  <form th:action="@{/admin/categorias/guardar}" th:object="${categoria}" method="post">
+    <input type="hidden" th:field="*{id}">
+
+    <label for="nombre">Nombre</label>
+    <input type="text" id="nombre" th:field="*{nombre}">
+    <div class="error" th:if="${#fields.hasErrors('nombre')}" th:errors="*{nombre}"></div>
+
+    <button type="submit">Guardar</button>
+    <a th:href="@{/admin/categorias}">Cancelar</a>
+  </form>
+</body>
+</html>

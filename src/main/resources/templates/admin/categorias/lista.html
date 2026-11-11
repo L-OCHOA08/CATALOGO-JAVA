@@ -1,0 +1,42 @@
+<!DOCTYPE html>
+<html lang="es" xmlns:th="http://www.thymeleaf.org">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+  <title>Categorías</title>
+  <style>
+    body { font-family: system-ui, sans-serif; margin: 0; padding: 1rem; max-width: 720px; margin-inline: auto; }
+    .tabla { overflow-x: auto; }
+    table { border-collapse: collapse; width: 100%; }
+    th, td { border-bottom: 1px solid #ddd; padding: .5rem; text-align: left; }
+    .ok { background: #e6f4ea; padding: .5rem 1rem; border-radius: 6px; }
+    .error { background: #fdecea; color: #b00020; padding: .5rem 1rem; border-radius: 6px; }
+    form.inline { display: inline; }
+  </style>
+</head>
+<body>
+  <h1>Categorías</h1>
+  <p><a th:href="@{/admin}">← Panel</a> · <a th:href="@{/admin/categorias/nueva}">+ Nueva categoría</a></p>
+  <p class="ok" th:if="${mensaje}" th:text="${mensaje}"></p>
+  <p class="error" th:if="${error}" th:text="${error}"></p>
+
+  <div class="tabla">
+    <table>
+      <thead><tr><th>Nombre</th><th>URL</th><th>Acciones</th></tr></thead>
+      <tbody>
+        <tr th:each="c : ${categorias}">
+          <td th:text="${c.nombre}">Nombre</td>
+          <td th:text="'/categoria/' + ${c.slug}">/categoria/slug</td>
+          <td>
+            <a th:href="@{/admin/categorias/{id}/editar(id=${c.id})}">Editar</a>
+            <form class="inline" th:action="@{/admin/categorias/{id}/eliminar(id=${c.id})}" method="post"
+                  onsubmit="return confirm('¿Eliminar esta categoría?');">
+              <button type="submit">Eliminar</button>
+            </form>
+          </td>
+        </tr>
+      </tbody>
+    </table>
+  </div>
+</body>
+</html>

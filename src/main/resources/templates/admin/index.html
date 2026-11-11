@@ -8,10 +8,11 @@
 <body>
   <h1>Panel de administración</h1>
   <p th:text="'Sesión iniciada como ' + ${usuario}">Sesión iniciada</p>
+  <p><a th:href="@{/admin/categorias}">Gestionar categorías</a></p>
+  <p><a th:href="@{/admin/productos}">Gestionar productos</a></p>
+  <p><a th:href="@{/}">Ver catálogo público</a></p>
   <form th:action="@{/logout}" method="post">
     <button type="submit">Cerrar sesión</button>
   </form>
-  <p><a th:href="@{/admin/productos}">Gestionar productos</a></p>
-  <p><a th:href="@{/}">Ver catálogo público</a></p>
 </body>
 </html>

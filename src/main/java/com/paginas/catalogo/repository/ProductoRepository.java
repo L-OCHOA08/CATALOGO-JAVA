@@ -8,4 +8,6 @@ import org.springframework.data.jpa.repository.JpaRepository;
 public interface ProductoRepository extends JpaRepository<Producto, Long> {
     Page<Producto> findByActivoTrue(Pageable pageable);
     Page<Producto> findByCategoriaIdAndActivoTrue(Long categoriaId, Pageable pageable);
+
+    long countByCategoriaId(Long categoriaId);
 }
