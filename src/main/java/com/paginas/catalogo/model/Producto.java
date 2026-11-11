@@ -1,6 +1,11 @@
 package com.paginas.catalogo.model;
 
 import jakarta.persistence.*;
+import jakarta.validation.constraints.DecimalMin;
+import jakarta.validation.constraints.NotBlank;
+import jakarta.validation.constraints.NotNull;
+import jakarta.validation.constraints.Size;
+
 import java.math.BigDecimal;
 
 @Entity 
@@ -10,12 +15,16 @@ public class Producto {
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     private Long id;
 
+    @NotBlank(message = "El nombre es obligatorio")
+    @Size(max = 120)
     @Column(nullable = false, length = 120)
     private String nombre;
 
     @Column(columnDefinition = "TEXT")
     private String descripcion;
 
+    @NotNull(message = "El precio es obligatorio")
+    @DecimalMin(value = "0.0", inclusive = false, message = "El precio debe ser mayor a 0")
     @Column(nullable = false, precision = 10, scale = 2)
     private BigDecimal precio;
 

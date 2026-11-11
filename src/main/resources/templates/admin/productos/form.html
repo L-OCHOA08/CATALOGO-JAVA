@@ -1,0 +1,46 @@
+<!DOCTYPE html>
+<html lang="es" xmlns:th="http://www.thymeleaf.org">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+  <title>Producto</title>
+  <style>
+    body { font-family: system-ui, sans-serif; margin: 0; padding: 1rem; max-width: 560px; margin-inline: auto; }
+    label { display: block; margin-top: 1rem; font-weight: 600; }
+    input[type=text], input[type=number], textarea, select { width: 100%; padding: .5rem; box-sizing: border-box; }
+    .error { color: #b00020; font-size: .9rem; }
+    button { margin-top: 1.5rem; padding: .6rem 1.2rem; }
+  </style>
+</head>
+<body>
+  <h1 th:text="${producto.id} == null ? 'Nuevo producto' : 'Editar producto'">Producto</h1>
+
+  <form th:action="@{/admin/productos/guardar}" th:object="${producto}" method="post">
+    <input type="hidden" th:field="*{id}">
+
+    <label for="nombre">Nombre</label>
+    <input type="text" id="nombre" th:field="*{nombre}">
+    <div class="error" th:if="${#fields.hasErrors('nombre')}" th:errors="*{nombre}"></div>
+
+    <label for="descripcion">Descripción</label>
+    <textarea id="descripcion" rows="4" th:field="*{descripcion}"></textarea>
+
+    <label for="precio">Precio</label>
+    <input type="number" id="precio" step="0.01" min="0" th:field="*{precio}">
+    <div class="error" th:if="${#fields.hasErrors('precio')}" th:errors="*{precio}"></div>
+
+    <label for="categoriaId">Categoría</label>
+    <select id="categoriaId" name="categoriaId">
+      <option value="">-- Elegí una --</option>
+      <option th:each="c : ${categorias}" th:value="${c.id}" th:text="${c.nombre}"
+              th:selected="${c.id} == ${categoriaId}">Cat</option>
+    </select>
+    <div class="error" th:if="${#fields.hasErrors('categoria')}" th:errors="*{categoria}"></div>
+
+    <label><input type="checkbox" th:field="*{activo}"> Visible en el catálogo</label>
+
+    <button type="submit">Guardar</button>
+    <a th:href="@{/admin/productos}">Cancelar</a>
+  </form>
+</body>
+</html>

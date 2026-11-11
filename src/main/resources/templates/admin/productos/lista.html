@@ -1,0 +1,48 @@
+<!DOCTYPE html>
+<html lang="es" xmlns:th="http://www.thymeleaf.org">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+  <title>Productos</title>
+  <style>
+    body { font-family: system-ui, sans-serif; margin: 0; padding: 1rem; max-width: 960px; margin-inline: auto; }
+    .tabla { overflow-x: auto; }
+    table { border-collapse: collapse; width: 100%; }
+    th, td { border-bottom: 1px solid #ddd; padding: .5rem; text-align: left; }
+    .inactivo { color: #888; }
+    .ok { background: #e6f4ea; padding: .5rem 1rem; border-radius: 6px; }
+    form.inline { display: inline; }
+  </style>
+</head>
+<body>
+  <h1>Productos</h1>
+  <p><a th:href="@{/admin}">← Panel</a> · <a th:href="@{/admin/productos/nuevo}">+ Nuevo producto</a></p>
+  <p class="ok" th:if="${mensaje}" th:text="${mensaje}"></p>
+
+  <div class="tabla">
+    <table>
+      <thead>
+        <tr><th>Nombre</th><th>Categoría</th><th>Precio</th><th>Estado</th><th>Acciones</th></tr>
+      </thead>
+      <tbody>
+        <tr th:each="p : ${productos}" th:classappend="${!p.activo} ? 'inactivo'">
+          <td th:text="${p.nombre}">Nombre</td>
+          <td th:text="${p.categoria.nombre}">Categoría</td>
+          <td th:text="'$ ' + ${#numbers.formatDecimal(p.precio, 1, 'POINT', 2, 'COMMA')}">$ 0</td>
+          <td th:text="${p.activo} ? 'Visible' : 'Oculto'">Estado</td>
+          <td>
+            <a th:href="@{/admin/productos/{id}/editar(id=${p.id})}">Editar</a>
+            <form class="inline" th:action="@{/admin/productos/{id}/activar(id=${p.id})}" method="post">
+              <button type="submit" th:text="${p.activo} ? 'Ocultar' : 'Mostrar'">Ocultar</button>
+            </form>
+            <form class="inline" th:action="@{/admin/productos/{id}/eliminar(id=${p.id})}" method="post"
+                  onsubmit="return confirm('¿Eliminar este producto?');">
+              <button type="submit">Eliminar</button>
+            </form>
+          </td>
+        </tr>
+      </tbody>
+    </table>
+  </div>
+</body>
+</html>
